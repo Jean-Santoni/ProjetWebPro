@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Annonce</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <link rel="stylesheet" href="projet.css">
+  </head>
+  <body> 
+    <button type="button" onclick="supSession()">Deconnexion</button>
+    <h1>Annonce</h1>
+    <div>Login : {{login}}</div>
+    <div ng-app="myApp" ng-controller="myCtrl">
+      <div ng-repeat="annonce in mesAnnonces"><my-annonce  titre= {{annonce.titre}} date={{annonce.date}}  texte={{annonce.titre}} img={{annonce.img}}></my-annonce></div>
+  </div>
+    <p><a href="Apropos.html">A propos</a></p>
+  </body>
+</html>
+<script>
+  // let tab;
+  // document.onreadystatechange = function() {
+  //   if (document.readyState === "complete") {
+  //     const xhttp = new XMLHttpRequest();
+  //     xhttp.onload = function(){
+  //       this.tab = this.responseText;
+  //       app.controller.$scope.mesAnnonces = this.tab;
+  //       //document.getElementById("annonce").setAttribute("ng-init","mesAnnonces = "+this.responseText);
+  //       console.log(this.tab);
+  //     }
+  //     xhttp.open("POST","./ajaxAnnonce.html",true);
+  //     xhttp.send();
+  //   }
+  // };
+
+  function supSession(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+      document.location.href = this.responseText;
+    }
+    xhttp.open("GET","./supSession.html",true);
+    xhttp.send();
+  }
+  var app = angular.module("myApp",[]);
+
+  app.controller("myCtrl",function($scope,$http){
+    $http({
+      method : "POST",
+        url : "./ajaxAnnonce.html"
+    }).then(function mySuccess(response) {
+      $scope.mesAnnonces = response.data; 
+    });
+  });
+
+  app.directive('myAnnonce', function() {
+    return{
+      restrict: 'E',
+      template: 
+        '<div><p>Titre : {{titre}}</p><p>Date :{{date}}</p><p>Description : {{texte}}</p><p>Image : <img src="{{img}}" width="200px" height="200px"/></p></div>',
+      scope: {
+        titre:  '@',
+        date:  '@',
+        texte:  '@',
+        img: '@',
+      }
+    }
+  })
+
+</script>
+ 

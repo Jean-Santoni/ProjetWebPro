@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Cookie</title>
+    <link rel="stylesheet" href="projet.css">
+  </head>
+  <body>
+    <h1>Cookie</h1>
+    <p id="cookie">Cookie : {{cookie}}</p>
+    <button type="button" onclick="cookieSupression()">Suprimmer le cookie</button>
+    <p><a href="./index.html">Index</a></p>
+  </body>
+</html>
+<script>
+
+  document.getElementById('cookie').innerHTML += "";
+
+  function cookieSupression(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+      document.location.href = this.responseText;
+    }
+    xhttp.open("POST", "./cookieSup.html", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+  }
+</script>

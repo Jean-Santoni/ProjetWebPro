@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Connexion</title>
+    <link rel="stylesheet" href="projet.css">
+  </head>
+  <body>
+    <h1>Connexion</h1>
+    <div>
+      <label for="login">Login :</label>
+      <input type="text" id="name" name="user_name" />
+      <button type="button" onclick="findLogin()">Connecter</button>
+  <div>
+    <button type="button" onclick="cookieCreation()">Créer un cookie</button>
+    <p><a href="./cookie.html">Cookie</a></p>
+    <p><a href="Apropos.html">A propos</a></p>
+  </body>
+</html>
+<script>
+  function findLogin(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+      document.location.href = this.responseText;
+    }
+    xhttp.open("POST", "./session.html", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("login="+document.getElementsByName('user_name')[0].value);
+  };
+
+  function cookieCreation(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+      console.log(this.responseText);
+    }
+    xhttp.open("POST", "./cookieCreation.html", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+  }
+</script>
