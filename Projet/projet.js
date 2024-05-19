@@ -3,10 +3,17 @@ let app = express();
 let sessions = require('express-session');
 let fileSystem = require('fs');
 
-
+const https = require('https');
+const fs = require('fs');
 let mysql =require('mysql');
 let cookieParser = require('cookie-parser');
 const path = require('path');
+
+// Chemins vers votre clé privée et certificat
+const privateKey = fs.readFileSync(path.join(__dirname, 'certs', 'key.pem'), 'utf8');
+const certificate = fs.readFileSync(path.join(__dirname, 'certs', 'cert.pem'), 'utf8');
+
+const credentials = { key: privateKey, cert: certificate };
 
 app.use(express.static(path.join(__dirname, '/css')));
 app.use(express.static(path.join(__dirname, '/pages')));
@@ -162,4 +169,9 @@ app.get('*', function(req, res){
     res.redirect('/index.html');
    });
    
-app.listen(8082);
+// Création du serveur HTTPS
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(3000, () => {
+  console.log('HTTPS Server running on port 3000');
+});
